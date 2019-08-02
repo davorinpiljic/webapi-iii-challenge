@@ -5,7 +5,6 @@ const cors = require('cors')
 
 const server = express();
 server.use(express.json());
-//stretch problem
 server.use(cors())
 
 server.get('/', (req, res) => {
@@ -49,7 +48,44 @@ function validatePost(request, response, next) {
 }
 
 server.use(logger)
+//crud users
+server.post('/users', (request, response) => {
+  const requestBody = request.body
+  userDb.insert(requestBody)
+  .then(user => {
+    if(user) {
+      response.status(201).json(user)
+    }
+  })
+})
+server.get('/users', (request, response) => {
+  const requestBody = request.body
+  userDb.get()
+  .then(users => {
+    if(users) {
+      response.status(200).json(users)
+    }
+  })
+})
+server.put('/users/:id', (request, response) => {
+  const updatedObject = request.body
+  const { id } = request.params
+  userDb.update(id, updatedObject)
+  .then(users => {
+    if(users) {
+      response.status(200).json(users)
+    }
+  })
+})
+server.delete('/users/:id', (request, response) => {
+  const { id } = request.params
+  userDb.remove(id) 
+  .then(users => {
+    response.status(200).json(users)
+  })
+})
 
+//
 server.get('/user/:id/posts', validateUserId, (request, response) => {
   postDb.getById(request.user.id)
   .then(posts => {
