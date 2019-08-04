@@ -61,7 +61,7 @@ server.use(logger);
 
 //endpoints
 server.get("/", (req, res) => {
-  res.send(`<h2>Good morning World! We do middleware today!</h2>`);
+  res.send(`<h2>Express Middleware</h2>`);
 });
 
 //crud users
